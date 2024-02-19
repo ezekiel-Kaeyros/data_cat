@@ -1,0 +1,9 @@
+@use "variables";
+
+@mixin rounded {
+  border-radius: $radius;
+}
+
+@mixin shadow {
+  box-shadow: none;
+}

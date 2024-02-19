@@ -1,0 +1,53 @@
+@import "home_page";
+@import "cards";
+
+$border-color: "rgb(213, 213, 213)";
+// @import url('./monitoring_style/monitoring.scss');
+@import "monitoring";
+@import "more_insights_page";
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  .sidebar {
+    position: fixed;
+    background-color: white;
+    border-right: 1px solid rgb(213, 213, 213);
+    top: 0;
+    padding: 1rem;
+    width: 15%;
+    height: 100vh;
+
+    .logo {
+      width: 10rem;
+    }
+  }
+
+  .content {
+    margin-left: auto;
+    width: 85%;
+    overflow: hidden;
+    height: 100vh;
+
+    .header {
+      background-color: white;
+      width: 100%;
+      padding: 1.5rem 4rem;
+      border-bottom: 1px solid rgb(213, 213, 213);
+    }
+
+    .main {
+      padding: 2rem 4rem;
+      background-color: "#ebebeb" !important;
+      height: 100%;
+    }
+  }
+}

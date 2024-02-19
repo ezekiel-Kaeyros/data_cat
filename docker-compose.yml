@@ -1,0 +1,9 @@
+version: '3'
+services:
+  data-catalogue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: data_catalog
+
+# // docker-compose.yml

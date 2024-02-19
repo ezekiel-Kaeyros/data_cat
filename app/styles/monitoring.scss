@@ -1,0 +1,58 @@
+.monitoring {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .monitoring__dropdown {
+      width: 30%;
+    }
+  }
+
+  &__pivot {
+  }
+
+  &__viewToggle > div {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+  }
+
+  &__viewToggle {
+    .monitoring_table_view {
+      height: 60vh;
+
+      .seletected_text {
+        margin: 1rem 0;
+        font-weight: bold;
+        opacity: 0.7;
+      }
+    }
+
+    .monitoring_graph_view {
+      height: 60vh;
+    }
+  }
+}
+
+// Panel cards
+
+.cards_monitoring_panel__list {
+  display: flex;
+  width: 100%;
+  margin: 0.5rem 0;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  .panel__link {
+    margin-top: 0.5rem;
+    display: flex;
+    font-weight: bold;
+
+    column-gap: 0.2rem;
+
+    a {
+      color: #5547ac;
+      text-decoration: none;
+    }
+  }
+}

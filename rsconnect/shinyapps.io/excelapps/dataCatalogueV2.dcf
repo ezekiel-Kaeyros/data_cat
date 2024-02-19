@@ -1,0 +1,12 @@
+name: dataCatalogueV2
+title: dataCatalogueV2
+username: excelapps
+account: excelapps
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11225121
+bundleId: 8263806
+url: https://excelapps.shinyapps.io/dataCatalogueV2/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

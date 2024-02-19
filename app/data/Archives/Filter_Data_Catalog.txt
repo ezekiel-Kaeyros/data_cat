@@ -1,0 +1,43 @@
+(1) FullModel-Node
+
+    * prov:generatedAtTime>
+    * dcat:startDate
+    * dcat:endDate
+    * dcterms:publisher
+    * dcat:version
+    * dcterms:title
+
+
+(2) RemedialActionSchedule
+
+    * cim:IdentifiedObject.name
+    * cim:IdentifiedObject.mRID
+    * rdf:ID="_f75a444c-2b40-49a8-a32f-f46a241a562d"
+
+(3) RedispatchScheduleAction
+ 
+    * cim:IdentifiedObject.name
+    * cim:IdentifiedObject.mRID
+    * cim:IdentifiedObject.description
+    * nc:PowerScheduleAction.currency
+
+(4) RemedialActionCost
+
+   * nc:RemedialActionCost.startupCost
+   * nc:RemedialActionCost.shutdownCost
+   * nc:RemedialActionCost.otherCost
+   * nc:RemedialActionCost.kind 
+   * nc:RemedialActionCost.RemedialActionSchedule
+
+
+(5) PowerSchedule
+
+  * cim:IdentifiedObject.description>
+  * 
+
+(6) PowerTimePoint
+ 
+ * nc:PowerTimePoint.atTime
+ * nc:PowerTimePoint.activatedP
+ * nc:PowerTimePoint.activatedPrice
+ * nc:PowerTimePoint.PowerSchedule

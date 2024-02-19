@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:time="http://www.w3.org/2006/time#" xmlns:eumd="http://entsoe.eu/ns/Metadata-European#" xmlns:eu="http://iec.ch/TC57/CIM100-European#" xmlns:nc="http://entsoe.eu/ns/nc#" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:md="http://iec.ch/TC57/61970-552/ModelDescription/1#" xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:cim="http://iec.ch/TC57/CIM100#" xmlns:dcterms="http://purl.org/dc/terms/#">
+	<md:FullModel rdf:about="urn:uuid:07554697-de4f-4f3c-ae49-2880b17581e8">
+		<md:Model.generatedAtTime>2023-03-23T15:39:00Z</md:Model.generatedAtTime>
+		<dcterms:Model.creator>10X1001A1001A094</dcterms:Model.creator>
+		<dcat:Model.keyword>RAS</dcat:Model.keyword>
+		<md:Model.DependentOn rdf:resource="urn:uuid:7623d9ae-dac7-11ed-91ef-f44ee39bf10d" />
+		<dcterms:Model.license>https://creativecommons.org/licenses/by/4.0/</dcterms:Model.license>
+		<dcat:Model.version>1.0</dcat:Model.version>
+		<eumd:Model.applicationSoftware>TDD-Tool</eumd:Model.applicationSoftware>
+		<dcterms:Model.description>This is an example of  remedial action schedule profile.</dcterms:Model.description>
+		<md:Model.wasAttributedTo>10X1001A1001A094</md:Model.wasAttributedTo>
+		<dcat:Model.startDate>2022-12-19T16:30:00+00:00Z</dcat:Model.startDate>
+		<dcat:Model.endDate>2022-12-19T18:30:00+00:00Z</dcat:Model.endDate>
+		<dcterms:Model.identifier>urn:uuid:07554697-de4f-4f3c-ae49-2880b17581e8</dcterms:Model.identifier>
+		<dcterms:Model.conformsTo>http://entsoe.eu/ns/CIM/RemedialActionSchedule-EU/2.2</dcterms:Model.conformsTo>
+		<dcterms:Model.conformsTo2>http://entsoe.eu/ns/CIM/PowerSchedule-EU/2.2</dcterms:Model.conformsTo2>
+	</md:FullModel>
+	<nc:RemedialActionScheduleGroup rdf:ID="_6e740f24-2298-46c8-980a-e589ebae7a3e">
+		<cim:IdentifiedObject.name>FAP_Replacment_2022-12-19T17:00</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>6e740f24-2298-46c8-980a-e589ebae7a3e</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>This is the redispatch action</cim:IdentifiedObject.description>
+	</nc:RemedialActionScheduleGroup>
+	<nc:RemedialActionSchedule rdf:ID="_c2ce0875-ebbb-4175-b023-25e290fea074">
+		<cim:IdentifiedObject.name>20221219_DA_CROSA_ORA_
+20221219_DA_CROSA_ORA_602</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>c2ce0875-ebbb-4175-b023-25e290fea074</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionSchedule.statusKind rdf:resource="http://entsoe.eu/ns/nc#RemedialActionScheduleStatusKind.notUsed" />
+		<nc:RemedialActionSchedule.RemedialAction rdf:resource="#_bf006431-1a6e-4f2c-94ab-aa44a4bf0dc7" />
+		<nc:RemedialActionSchedule.RemedialActionScheduleGroup rdf:resource="#_6e740f24-2298-46c8-980a-e589ebae7a3e" />
+	</nc:RemedialActionSchedule>
+	<nc:RedispatchScheduleAction rdf:ID="_87c5cd08-3a14-4e11-aa94-a10d33a59b1f">
+		<cim:IdentifiedObject.name>Coo 1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>87c5cd08-3a14-4e11-aa94-a10d33a59b1f</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Elia__ORA_602_17</cim:IdentifiedObject.description>
+		<nc:PowerScheduleAction.currency rdf:resource="https://iec.ch/TC57/CIM100#Currency.EUR" />
+		<nc:PowerScheduleAction.RemedialActionSchedule rdf:resource="#_c2ce0875-ebbb-4175-b023-25e290fea074" />
+		<nc:PowerScheduleAction.PowerSchedule rdf:resource="#_9d511bda-ad47-401b-8469-4d7ada784d68" />
+	</nc:RedispatchScheduleAction>
+	<nc:RemedialActionCost rdf:ID="_f5637b98-c3a5-42d1-824c-316f958b20f3">
+		<cim:IdentifiedObject.mRID>f5637b98-c3a5-42d1-824c-316f958b20f3</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionCost.startupCost>0</nc:RemedialActionCost.startupCost>
+		<nc:RemedialActionCost.shutdownCost>0</nc:RemedialActionCost.shutdownCost>
+		<nc:RemedialActionCost.otherCost>0</nc:RemedialActionCost.otherCost>
+		<nc:RemedialActionCost.RemedialActionSchedule rdf:resource="#_c2ce0875-ebbb-4175-b023-25e290fea074" />
+		<nc:RemedialActionCost.kind rdf:resource="http://entsoe.eu/ns/nc#CostSettledKind.provisonal" />
+	</nc:RemedialActionCost>
+	<nc:PowerSchedule rdf:ID="_9d511bda-ad47-401b-8469-4d7ada784d68">
+		<cim:IdentifiedObject.name>Power schedule Coo 1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>9d511bda-ad47-401b-8469-4d7ada784d68</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Power schedule for the redispatch action</cim:IdentifiedObject.description>
+		<nc:BaseTimeSeries.interpolationKind rdf:resource="http://entsoe.eu/ns/nc#TimeSeriesInterpolationKind.none" />
+		<nc:PowerSchedule.GeneratingUnit rdf:resource="#_2f19c660-18d5-4b69-ba7a-1e7daee83c43" />
+	</nc:PowerSchedule>
+	<nc:RemedialActionSchedule rdf:ID="_36271c7a-1a9f-4602-a738-2d7da224581d">
+		<cim:IdentifiedObject.name>20221219_DA_CROSA_ORA_
+20221219_DA_CROSA_ORA_602</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>36271c7a-1a9f-4602-a738-2d7da224581d</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionSchedule.statusKind rdf:resource="http://entsoe.eu/ns/nc#RemedialActionScheduleStatusKind.implemented" />
+		<nc:RemedialActionSchedule.RemedialAction rdf:resource="#_082881ca-29fc-4369-89c8-781bc27105b6" />
+		<nc:RemedialActionSchedule.RemedialActionScheduleGroup rdf:resource="#_6e740f24-2298-46c8-980a-e589ebae7a3e" />
+	</nc:RemedialActionSchedule>
+	<nc:RedispatchScheduleAction rdf:ID="_e6c2aa63-1fb7-4341-9b42-55a3cd62b01b">
+		<cim:IdentifiedObject.name>
+Drogenbos GT1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>e6c2aa63-1fb7-4341-9b42-55a3cd62b01b</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Elia__ORA_602_17</cim:IdentifiedObject.description>
+		<nc:PowerScheduleAction.currency rdf:resource="https://iec.ch/TC57/CIM100#Currency.EUR" />
+		<nc:PowerScheduleAction.RemedialActionSchedule rdf:resource="#_36271c7a-1a9f-4602-a738-2d7da224581d" />
+		<nc:PowerScheduleAction.PowerSchedule rdf:resource="#_c321addc-824a-4b86-a3ed-a5d998a57b01" />
+	</nc:RedispatchScheduleAction>
+	<nc:RemedialActionCost rdf:ID="_0e656061-4ae7-4316-98a6-80103f1eae71">
+		<cim:IdentifiedObject.mRID>0e656061-4ae7-4316-98a6-80103f1eae71</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionCost.startupCost>0</nc:RemedialActionCost.startupCost>
+		<nc:RemedialActionCost.shutdownCost>0</nc:RemedialActionCost.shutdownCost>
+		<nc:RemedialActionCost.otherCost>0</nc:RemedialActionCost.otherCost>
+		<nc:RemedialActionCost.RemedialActionSchedule rdf:resource="#_36271c7a-1a9f-4602-a738-2d7da224581d" />
+		<nc:RemedialActionCost.kind rdf:resource="http://entsoe.eu/ns/nc#CostSettledKind.provisonal" />
+	</nc:RemedialActionCost>
+	<nc:PowerSchedule rdf:ID="_c321addc-824a-4b86-a3ed-a5d998a57b01">
+		<cim:IdentifiedObject.name>Power schedule 
+Drogenbos GT1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>c321addc-824a-4b86-a3ed-a5d998a57b01</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Power schedule for the redispatch action</cim:IdentifiedObject.description>
+		<nc:BaseTimeSeries.interpolationKind rdf:resource="http://entsoe.eu/ns/nc#TimeSeriesInterpolationKind.none" />
+		<nc:PowerSchedule.GeneratingUnit rdf:resource="#_afb866ff-8a57-4407-81a9-60686dc8d1a8" />
+	</nc:PowerSchedule>
+	<nc:PowerTimePoint rdf:ID="_3ccaca4f-2426-43eb-ab60-2748279a5b63">
+		<nc:PowerTimePoint.atTime>2022-12-19T16:30:00Z</nc:PowerTimePoint.atTime>
+		<nc:PowerTimePoint.activatedP>-5.0</nc:PowerTimePoint.activatedP>
+		<nc:PowerTimePoint.activatedPrice>-35.0</nc:PowerTimePoint.activatedPrice>
+		<nc:PowerTimePoint.PowerSchedule rdf:resource="#_c321addc-824a-4b86-a3ed-a5d998a57b01" />
+	</nc:PowerTimePoint>
+	<nc:PowerTimePoint rdf:ID="_e5b7d16d-acb2-4b5a-86e9-3368d3d1ba8a">
+		<nc:PowerTimePoint.atTime>2022-12-19T17:30:00Z</nc:PowerTimePoint.atTime>
+		<nc:PowerTimePoint.activatedP>-5.0</nc:PowerTimePoint.activatedP>
+		<nc:PowerTimePoint.activatedPrice>-20.0</nc:PowerTimePoint.activatedPrice>
+		<nc:PowerTimePoint.PowerSchedule rdf:resource="#_c321addc-824a-4b86-a3ed-a5d998a57b01" />
+	</nc:PowerTimePoint>
+	<nc:RemedialActionSchedule rdf:ID="_1e5b3a1c-dbec-42a0-8441-5397d51f914d">
+		<cim:IdentifiedObject.name>20221219_DA_CROSA_ORA_
+20221219_DA_CROSA_ORA_601</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>1e5b3a1c-dbec-42a0-8441-5397d51f914d</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionSchedule.statusKind rdf:resource="http://entsoe.eu/ns/nc#RemedialActionScheduleStatusKind.implemented" />
+		<nc:RemedialActionSchedule.RemedialAction rdf:resource="#_f0740040-a23f-415c-957f-a91bcae478d6" />
+	</nc:RemedialActionSchedule>
+	<nc:RedispatchScheduleAction rdf:ID="_22015348-4858-4537-a96c-59b6ba85fb31">
+		<cim:IdentifiedObject.name>
+Herdersbrugge GT1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>22015348-4858-4537-a96c-59b6ba85fb31</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Elia__ORA_601_17</cim:IdentifiedObject.description>
+		<nc:PowerScheduleAction.currency rdf:resource="https://iec.ch/TC57/CIM100#Currency.EUR" />
+		<nc:PowerScheduleAction.RemedialActionSchedule rdf:resource="#_1e5b3a1c-dbec-42a0-8441-5397d51f914d" />
+		<nc:PowerScheduleAction.PowerSchedule rdf:resource="#_d2f40691-3c97-42f6-abed-5d1359168846" />
+	</nc:RedispatchScheduleAction>
+	<nc:RemedialActionCost rdf:ID="_2a4fe8e0-b7f4-4d41-aca5-a2d1bb95568a">
+		<cim:IdentifiedObject.mRID>2a4fe8e0-b7f4-4d41-aca5-a2d1bb95568a</cim:IdentifiedObject.mRID>
+		<nc:RemedialActionCost.startupCost>12000</nc:RemedialActionCost.startupCost>
+		<nc:RemedialActionCost.shutdownCost>0</nc:RemedialActionCost.shutdownCost>
+		<nc:RemedialActionCost.otherCost>0</nc:RemedialActionCost.otherCost>
+		<nc:RemedialActionCost.RemedialActionSchedule rdf:resource="#_1e5b3a1c-dbec-42a0-8441-5397d51f914d" />
+		<nc:RemedialActionCost.kind rdf:resource="http://entsoe.eu/ns/nc#CostSettledKind.provisonal" />
+	</nc:RemedialActionCost>
+	<nc:PowerSchedule rdf:ID="_d2f40691-3c97-42f6-abed-5d1359168846">
+		<cim:IdentifiedObject.name>Power schedule 
+Herdersbrugge GT1</cim:IdentifiedObject.name>
+		<cim:IdentifiedObject.mRID>d2f40691-3c97-42f6-abed-5d1359168846</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Power schedule for the redispatch action</cim:IdentifiedObject.description>
+		<nc:BaseTimeSeries.interpolationKind rdf:resource="http://entsoe.eu/ns/nc#TimeSeriesInterpolationKind.none" />
+		<nc:PowerSchedule.GeneratingUnit rdf:resource="#_3399a7ef-037a-4da0-ad2a-b05dc1d4dec4" />
+	</nc:PowerSchedule>
+	<nc:PowerTimePoint rdf:ID="_e205adb8-1cdc-4511-8d91-8b369c37ec48">
+		<nc:PowerTimePoint.atTime>2022-12-19T16:30:00Z</nc:PowerTimePoint.atTime>
+		<nc:PowerTimePoint.activatedP>5.0</nc:PowerTimePoint.activatedP>
+		<nc:PowerTimePoint.activatedPrice>115.0</nc:PowerTimePoint.activatedPrice>
+		<nc:PowerTimePoint.PowerSchedule rdf:resource="#_d2f40691-3c97-42f6-abed-5d1359168846" />
+	</nc:PowerTimePoint>
+	<nc:PowerTimePoint rdf:ID="_ab18379b-ccd9-406e-afa8-f04a4d6cf800">
+		<nc:PowerTimePoint.atTime>2022-12-19T17:30:00Z</nc:PowerTimePoint.atTime>
+		<nc:PowerTimePoint.activatedP>5.0</nc:PowerTimePoint.activatedP>
+		<nc:PowerTimePoint.activatedPrice>130.0</nc:PowerTimePoint.activatedPrice>
+		<nc:PowerTimePoint.PowerSchedule rdf:resource="#_d2f40691-3c97-42f6-abed-5d1359168846" />
+	</nc:PowerTimePoint>
+</rdf:RDF>
