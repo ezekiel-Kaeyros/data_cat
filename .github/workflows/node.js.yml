@@ -18,10 +18,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: moove on data-catalogue
+        run: cd data-catalogue
+
       - name: Build Docker image
-        run: |
-          cd data-catalogue
-          docker-compose build app
+        run: docker-compose build app
 
       - name: Tag Docker image
         run: docker tag data_catalog ezekielkaeyros/data_catalog
