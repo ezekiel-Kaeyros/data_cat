@@ -44,6 +44,8 @@ RUN R -e "install.packages('XML')"
 RUN R -e "install.packages('xml2')"
 RUN R -e "install.packages('mailR')"
 RUN R -e "install.packages('rJava')"
+RUN R -e "install.packages('rhino')"
+
 
 # Expose the application port
 EXPOSE 8180
