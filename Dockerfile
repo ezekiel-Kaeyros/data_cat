@@ -47,6 +47,7 @@ RUN R -e "install.packages('mailR')"
 RUN R -e "install.packages('rJava')"
 RUN R -e "install.packages('rhino')"
 RUN R -e "install.packages('keyring')"
+RUN R -e "install.packages('r2d3')"
 
 
 # Expose the application port
