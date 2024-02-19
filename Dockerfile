@@ -1,5 +1,6 @@
 # Base R Shiny image
 FROM rocker/shiny
+FROM semoss/docker-r
 
 # Make a directory in the container
 WORKDIR /app
@@ -44,7 +45,7 @@ RUN R -e "install.packages('viridis')"
 RUN R -e "install.packages('XML')"
 RUN R -e "install.packages('xml2')"
 RUN R -e "install.packages('mailR')"
-RUN R -e "install.packages('rJava')"
+#RUN R -e "install.packages('rJava')"
 RUN R -e "install.packages('rhino')"
 RUN R -e "install.packages('keyring')"
 RUN R -e "install.packages('r2d3')"
