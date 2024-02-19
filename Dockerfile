@@ -1,7 +1,6 @@
 # Base R Shiny image
 FROM rocker/shiny
 
-FROM semoss/docker-r
 
 # Make a directory in the container
 WORKDIR /app
@@ -9,9 +8,12 @@ WORKDIR /app
 COPY . /app
 
 # Install libglpk40
-# RUN apt-get update && apt-get install -y libglpk40
+RUN apt-get update && apt-get install -y libglpk40
 
-# RUN apt-get update && apt-get install -y libsecret-1-0
+RUN apt-get update && apt-get install -y libsecret-1-0
+RUN apt-get update && apt-get install -y \
+    openjdk-8-jdk liblzma-dev libbz2-dev libicu-dev libssl-dev \
+    && r cmd javareconf
 
 # Install R dependencies
 RUN R -e "install.packages('crosstalk')"
@@ -47,7 +49,7 @@ RUN R -e "install.packages('viridis')"
 RUN R -e "install.packages('XML')"
 RUN R -e "install.packages('xml2')"
 RUN R -e "install.packages('mailR')"
-#RUN R -e "install.packages('rJava')"
+RUN R -e "install.packages('rJava')"
 RUN R -e "install.packages('rhino')"
 RUN R -e "install.packages('keyring')"
 RUN R -e "install.packages('r2d3')"
