@@ -9,7 +9,7 @@ COPY . /app
 
 # Install libglpk40
 RUN apt-get update && apt-get install -y libglpk40
-RUN apt-get update && apt-get install -y libsecret-1-0
+#RUN apt-get update && apt-get install -y libsecret-1-0
 
 # Install R dependencies
 RUN R -e "install.packages('crosstalk')"
