@@ -21,7 +21,7 @@ jobs:
       
 
       - name: Build Docker image
-        run: docker-compose build app
+        run: docker-compose build 
 
       - name: Tag Docker image
         run: docker tag data_catalog ezekielkaeyros/data_catalog
