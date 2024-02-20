@@ -12,22 +12,7 @@ RUN apt-get update && apt-get install -y libglpk40
 
 RUN apt-get update && apt-get install -y libsecret-1-0
 
-# install wget and gnupg
-RUN apt-get update && apt-get install -my wget gnupg
 
-# install oracle java 8
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
-    && echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list \
-    && echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 \
-    && apt-get update \
-    && apt-get install oracle-java8-installer -y
-
-# clean local repository
-RUN apt-get clean
-
-# set up JAVA_HOME
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 # Install R dependencies
 RUN R -e "install.packages('crosstalk')"
@@ -63,7 +48,7 @@ RUN R -e "install.packages('viridis')"
 RUN R -e "install.packages('XML')"
 RUN R -e "install.packages('xml2')"
 RUN R -e "install.packages('mailR')"
-#RUN R -e "install.packages('rJava')"
+RUN R -e "install.packages('rJava')"
 RUN R -e "install.packages('rhino')"
 RUN R -e "install.packages('keyring')"
 RUN R -e "install.packages('r2d3')"
