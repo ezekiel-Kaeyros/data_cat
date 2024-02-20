@@ -65,7 +65,7 @@ ui <- function(id) {
 #Change labels
 shinymanager::set_labels(
   language = c("en"),
-  "Please authenticate" = "Login"
+  "Please authenticate" = "Authenticate"
 )
 
 #' @export
