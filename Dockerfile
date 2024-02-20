@@ -1,11 +1,22 @@
 # Base R Shiny image
 FROM rocker/shiny
+FROM openjdk:8
+
+# Exécuter la commande find pour rechercher libjvm.so et copier le chemin dans une variable d'environnement
+RUN LIBJVM_PATH=$(find / -name libjvm.so 2>/dev/null) && echo "export LIBJVM_PATH=$LIBJVM_PATH" >> /etc/profile
+
+# Copier la bibliothèque libjvm.so dans le conteneur en utilisant le chemin capturé
+COPY $LIBJVM_PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+
+# Définir la variable d'environnement LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
 
 
 # Make a directory in the container
 WORKDIR /app
 
 COPY . /app
+
 
 # Install libglpk40
 RUN apt-get update && apt-get install -y libglpk40
