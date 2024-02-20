@@ -1,8 +1,6 @@
 # Base R Shiny image
 FROM rocker/shiny
 
-
-
 # Installation de l'openjdk
 RUN apt-get update && apt-get install -y openjdk-8-jdk
 
@@ -10,7 +8,8 @@ RUN apt-get update && apt-get install -y openjdk-8-jdk
 RUN LIBJVM_PATH=$(find / -name libjvm.so 2>/dev/null) && echo "export LIBJVM_PATH=$LIBJVM_PATH" >> /etc/profile
 
 # Copier la bibliothèque libjvm.so dans le conteneur en utilisant le chemin capturé
-COPY $LIBJVM_PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+# Copier la bibliothèque libjvm.so dans le répertoire du conteneur
+COPY $LIBJVM_PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/
 
 # Définir la variable d'environnement LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
