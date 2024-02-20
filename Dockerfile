@@ -1,18 +1,21 @@
 # Base R Shiny image
 FROM rocker/shiny
 
+
+
 # Installation de l'openjdk
 RUN apt-get update && apt-get install -y openjdk-8-jdk
 
-# Copie du script de recherche et de copie de libjvm.so
-COPY find_and_copy_libjvm.sh /usr/local/bin/
-RUN /usr/local/bin/find_and_copy_libjvm.sh
+# Exécuter la commande find pour rechercher libjvm.so et copier le chemin dans une variable d'environnement
+RUN LIBJVM_PATH=$(find / -name libjvm.so 2>/dev/null) && echo "export LIBJVM_PATH=$LIBJVM_PATH" >> /etc/profile
 
-# Copie du script d'installation des dépendances R
-COPY install_r_packages.R /usr/local/bin/
-RUN Rscript /usr/local/bin/install_r_packages.R
+# Copier la bibliothèque libjvm.so dans le conteneur en utilisant le chemin capturé
+COPY $LIBJVM_PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so
 
-# Make a directory in the container
+# Définir la variable d'environnement LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server:$LD_LIBRARY_PATH
+
+
 # Make a directory in the container
 WORKDIR /app
 
