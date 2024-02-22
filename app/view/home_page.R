@@ -11,7 +11,7 @@ box::use(
 )
 
 #' @export
-home_ui <- function(id) {
+home_ui <- function(id, username) {
   ns <- NS(id)
   fluentPage(
     div(
@@ -44,7 +44,8 @@ home_ui <- function(id) {
     layouts$home_layout(
       home_data_catalog_overview$ui(ns("catalog_overview")),
       home_data_quality_metrics$ui(ns("quality_metrics")),
-      home_data_lineage_overview$ui(ns("lineage_overview"))
+      home_data_lineage_overview$ui(ns("lineage_overview")),
+      username
     )
   )
 }
@@ -52,6 +53,7 @@ home_ui <- function(id) {
 #' @export
 home_server <- function(id) {
   moduleServer(id, function(input, output, session) {
+
     home_data_catalog_overview$server("catalog_overview")
     home_data_quality_metrics$server("quality_metrics")
     home_data_lineage_overview$server("lineage_overview")

@@ -1428,17 +1428,6 @@
       ],
       "Hash": "a1ac5c03ad5ad12b9d1597e00e23c3dd"
     },
-    "plyr": {
-      "Package": "plyr",
-      "Version": "1.8.9",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "Rcpp"
-      ],
-      "Hash": "6b8177fd19982f0020743fadbfdbd933"
-    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -1848,16 +1837,6 @@
       ],
       "Hash": "5669c376aea6546ff938528588101b7a"
     },
-    "semantic.assets": {
-      "Package": "semantic.assets",
-      "Version": "1.1.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "htmlwidgets"
-      ],
-      "Hash": "13ee579a535e39b73f2143eced792755"
-    },
     "settings": {
       "Package": "settings",
       "Version": "0.2.7",
@@ -1947,26 +1926,6 @@
       ],
       "Hash": "704f0167ce6857051a48547e31d38060"
     },
-    "shiny.semantic": {
-      "Package": "shiny.semantic",
-      "Version": "0.5.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R6",
-        "glue",
-        "grDevices",
-        "htmltools",
-        "htmlwidgets",
-        "jsonlite",
-        "magrittr",
-        "purrr",
-        "semantic.assets",
-        "shiny",
-        "stats"
-      ],
-      "Hash": "914f0287f2f1bedf5ecdfdd354f408a3"
-    },
     "shiny.tailwind": {
       "Package": "shiny.tailwind",
       "Version": "0.2.2",
@@ -1978,6 +1937,22 @@
         "shiny"
       ],
       "Hash": "1194faa911d2ad6f73e2715a04de5ed7"
+    },
+    "shinyDarkmode": {
+      "Package": "shinyDarkmode",
+      "Version": "0.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "shinyDarkmode",
+      "RemoteUsername": "deepanshu88",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "9ae7caf815ad3f5be6010895e1644920e031270f",
+      "Requirements": [
+        "R",
+        "shiny"
+      ],
+      "Hash": "de2ee542a05627fc4de7535c9a170092"
     },
     "shinyWidgets": {
       "Package": "shinyWidgets",
@@ -2025,20 +2000,6 @@
         "shiny"
       ],
       "Hash": "f39bb3c44a9b496723ec7e86f9a771d8"
-    },
-    "shinydashboard": {
-      "Package": "shinydashboard",
-      "Version": "0.7.2",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "htmltools",
-        "promises",
-        "shiny",
-        "utils"
-      ],
-      "Hash": "e418b532e9bb4eb22a714b9a9f1acee7"
     },
     "shinyjs": {
       "Package": "shinyjs",

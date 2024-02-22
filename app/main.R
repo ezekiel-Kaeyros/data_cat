@@ -1,3 +1,6 @@
+rm(list = ls()) # activate the step before execution !!!!!!
+cat("\f")
+
 box::use(
   shiny[bootstrapPage, div, moduleServer, NS, renderUI, tags, uiOutput, textOutput,
         renderText, reactive, req, observeEvent, enableBookmarking, actionButton,
@@ -6,6 +9,7 @@ box::use(
   shiny.fluent[fluentPage, Text, ThemeProvider],
   tibble,
   shinymanager,
+  shinyDarkmode,
   keyring
 )
 
@@ -30,15 +34,16 @@ box::use(
 #keyring::key_set("R-shinymanager-key", "datacatalogapp")
 #keyring::key_set_with_value("R-shinymanager-key", "datacatalogapp", password = "Kaeyros@data@237@key")
 
-########### Define Credential
+########## Define Credential
 # credentials <- data.frame(
-#   user = c("admin","admin_kaeyros"),
-#   password = c("Kaeyros@data@237@key","Kaeyros@data@237@key"),
+#   user = c("admin","admin_kaeyros", "datacat_user", "datacat_user_2","datacat_user_3", "datacat_user_4", "datacat_user_5"),
+#   password = c("Kaeyros@data@237@key","Kaeyros@data@237@key","CSV@datacat@2024@key",
+#                "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key"),
 #   # password will automatically be hashed
-#   admin = c(FALSE, TRUE),
+#   admin = c(FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE),
 #   stringsAsFactors = FALSE
 # )
-################" Creation de la DB SQLite
+# ###############" Creation de la DB SQLite
 # shinymanager::create_db(
 #   credentials_data = credentials,
 #   sqlite_path = "app/data/database.sqlite", # will be created
@@ -50,8 +55,9 @@ ui <- function(id) {
   #ns <- NS(id) ne pas utilisé dans cet .env - rhino.yml
 
   fluentPage(
+    shinyDarkmode::use_darkmode(),
     router_ui(
-      route("home", layouts$main_layout(home_page$home_ui("home"))),
+      route("home", layouts$main_layout(home_page$home_ui("home", textOutput("username")))),
       route("monitoring", layouts$main_layout(monitoring_page$monitoring_ui("monitoring"))),
       route("validation", layouts$main_layout(validation_page$validation_ui("validation"))),
       route("more-insights", layouts$main_layout(more_insights_page$ui("insights"))),
@@ -70,7 +76,7 @@ shinymanager::set_labels(
 
 #' @export
 ui <- shinymanager::secure_app(ui,
-theme = shinythemes::shinytheme("cerulean"),
+#theme = shinythemes::shinytheme("cerulean"),
   tags_top =
     tags$div(
       tags$head(
@@ -82,11 +88,11 @@ theme = shinythemes::shinytheme("cerulean"),
   ),
  tags_bottom = tags$div(
     tags$a(
-      href = "google.com",
-      target="_blank", "Forget password ?"
+      href = "https://kaeyros-analytics.com",
+      target="_blank", "Forgot password ?"
     )
 ),
-    enable_admin = TRUE, choose_language = TRUE)
+    enable_admin = TRUE, fab_position = "bottom-left") #choose_language = TRUE,
 
 #' @export
 server <- function(id, input, output, session) {
@@ -97,12 +103,14 @@ server <- function(id, input, output, session) {
       #passphrase = keyring::key_get("R-shinymanager-key", "datacatalogapp")
       passphrase = "passphrase_wihtout_keyring"
     ),
-    session = shiny::getDefaultReactiveDomain()
+    #session = shiny::getDefaultReactiveDomain()
   )
 
   data <- reactive({
     reactiveValuesToList(res_auth)
   })
+
+  shinyDarkmode::darkmode(label = "⏳" ,autoMatchOsTheme = FALSE)
 
   router_server("home")
   home_page$home_server("home")
@@ -114,5 +122,11 @@ server <- function(id, input, output, session) {
   data_lineage_page$data_lineage_server("data_lineage")
 
   ####### envoie un mail apres la connexion
-  #observeEvent(data()$user,{ sendMail$send_mail_login()})
+  #observeEvent(data()$user,{ sendMail$send_mail_login(data()$user)})
+
+  ########## The Username of the person login
+  output$username <- renderText({
+    data()$user
+  })
+
 }

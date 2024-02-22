@@ -9,7 +9,6 @@ box::use(
   app/view/components/common/panel
 )
 
-
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -23,6 +22,7 @@ server <- function(id) {
 
     ns <- session$ns
 
+    ### je récupère les informations à afficher dans le fichier insights.rds
     insights <- reactiveFileReader(1000, NULL,
                                    'app/data/insights/insights.rds', readRDS)
 
@@ -68,7 +68,7 @@ server <- function(id) {
 
               div(class = "more_insights_page__list",
                   items <- lapply(1:nbre_report_files, function(i) {
-                    print(paste("rapport :", i, sep = ""))
+                    #print(paste("rapport :", i, sep = ""))
                     cards$more_insights_card("", paste("", report_files_no_extension[i],".html", sep = ""),
                                              paste("/_", report_files_no_extension[i], sep = ""))
                   }),

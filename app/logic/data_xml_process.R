@@ -4,6 +4,12 @@ box::use(
   xml2
 )
 
+rm(list = ls()) # activate the step before execution !!!!!!
+cat("\f")
+
+# setting system local encoding
+#Sys.setlocale("LC_ALL", "English_United States.932") # this works perfectly
+
 xmldataframe <- data.frame()
 
 # 1. loading XML data   ####

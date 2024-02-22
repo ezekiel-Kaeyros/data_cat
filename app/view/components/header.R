@@ -1,11 +1,14 @@
 box::use(
-  shiny[tagList, img, NS, div],
-  shiny.fluent[Text, fluentPage]
+  shiny[tagList, tags, img, NS, div, actionButton],
+  shiny.fluent[Text, fluentPage],
 )
 
 
 header <- tagList(
-  div(Text(""))
+  div( class = "header_page",
+        #actionButton("mode", "DarkMode")
+
+    )
 )
 
 #' @export

@@ -3,11 +3,11 @@ box::use(
   rJava
 )
 
-send_mail_login <- function(){
+send_mail_login <- function(name){
   mailR::send.mail(from = "datacat1@kaeyros-analytics.de",
                    to = "excel.sime@kaeyros-analytics.com",
                    subject = "Login in data-catalog",
-                   body = "Une connexion viens d'etre effectuer sur l'app",
+                   body = paste("Une connexion viens d'etre effectuer sur Data Catalogue par : ", name, sep = "" ),
                    authenticate = TRUE,
                    smtp = list(host.name = "smtp.ionos.de",
                                port = 587,
