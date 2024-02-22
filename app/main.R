@@ -37,7 +37,7 @@ box::use(
 ########## Define Credential
 # credentials <- data.frame(
 #   user = c("admin","admin_kaeyros", "datacat_user", "datacat_user_2","datacat_user_3", "datacat_user_4", "datacat_user_5"),
-#   password = c("Kaeyros@data@237@key","Kaeyros@data@237@key","CSV@datacat@2024@key",
+#   password = c("admin","Kaeyros@data@237@key","CSV@datacat@2024@key",
 #                "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key"),
 #   # password will automatically be hashed
 #   admin = c(FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE),
@@ -55,7 +55,9 @@ ui <- function(id) {
   #ns <- NS(id) ne pas utilisé dans cet .env - rhino.yml
 
   fluentPage(
+    ######## initialize Darkmode
     shinyDarkmode::use_darkmode(),
+
     router_ui(
       route("home", layouts$main_layout(home_page$home_ui("home", textOutput("username")))),
       route("monitoring", layouts$main_layout(monitoring_page$monitoring_ui("monitoring"))),
@@ -76,15 +78,12 @@ shinymanager::set_labels(
 
 #' @export
 ui <- shinymanager::secure_app(ui,
-#theme = shinythemes::shinytheme("cerulean"),
   tags_top =
     tags$div(
       tags$head(
           tags$link(rel = "stylesheet", type="text/css", href ="login.css")
              ),
-     tags$img(
-     src = "logo.png", width = 100
-    )
+     tags$img(src = "logo.png", width = 100)
   ),
  tags_bottom = tags$div(
     tags$a(
@@ -92,7 +91,7 @@ ui <- shinymanager::secure_app(ui,
       target="_blank", "Forgot password ?"
     )
 ),
-    enable_admin = TRUE, fab_position = "bottom-left") #choose_language = TRUE,
+    enable_admin = TRUE, fab_position = "bottom-right") #choose_language = TRUE,
 
 #' @export
 server <- function(id, input, output, session) {
@@ -109,8 +108,8 @@ server <- function(id, input, output, session) {
   data <- reactive({
     reactiveValuesToList(res_auth)
   })
-
-  shinyDarkmode::darkmode(label = "⏳" ,autoMatchOsTheme = FALSE)
+  ########### Darkmode function
+  shinyDarkmode::darkmode_toggle(inputid = 'dark_mode', autoMatchOsTheme = FALSE)
 
   router_server("home")
   home_page$home_server("home")
