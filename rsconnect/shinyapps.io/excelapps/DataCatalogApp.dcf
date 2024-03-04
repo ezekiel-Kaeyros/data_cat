@@ -5,7 +5,7 @@ account: excelapps
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11170010
-bundleId: 8284163
+bundleId: 8316327
 url: https://excelapps.shinyapps.io/DataCatalogApp/
 version: 1
 asMultiple: FALSE

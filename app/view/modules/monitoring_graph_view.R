@@ -17,8 +17,6 @@ box::use(
   app/view/components/common/panel,
 )
 
-datas_value <- data_csv_process$output_data("Monitoring")
-
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -36,9 +34,22 @@ server <- function(id, dropdown) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
+
+    current_page <- reactive({
+      page <- shiny.router::get_query_param("layer",session)
+      if(is.null(page)){
+        page <- "Validation"
+      }
+      page
+    })
+
+    datas_value <- reactive({
+      data <- data_csv_process$output_data(current_page())
+      data
+    })
     ############ recupération des données
     table_data <- reactive({
-      datas_value %>%
+      datas_value() %>%
         dplyr::filter(InputDataBusinessProcess == dropdown)
     })
 
@@ -52,11 +63,10 @@ server <- function(id, dropdown) {
   ##### Insertion des données reactive pour le graph
     data_panel <- reactive({
       datas <- table_data()
-      datas$back_url <- "monitoring"
+      datas$back_url <- tolower(current_page())
       datas <- datas %>%
         dplyr::filter( DataName == print(input$node_name))
 
-      saveRDS(datas, paste(paste0("app/data/insights/","insights",".rds", sep="")))
       datas
     })
 

@@ -2,6 +2,7 @@ box::use(
   shiny[div, moduleServer, tagList, NS, img, a, h1, h3, renderUI, uiOutput,
         insertUI, reactive, reactiveFileReader, observeEvent],
   stringr[str_detect],
+  shiny.router,
 )
 
 box::use(
@@ -22,17 +23,20 @@ server <- function(id) {
 
     ns <- session$ns
 
-    ### je récupère les informations à afficher dans le fichier insights.rds
-    insights <- reactiveFileReader(1000, NULL,
-                                   'app/data/insights/insights.rds', readRDS)
-
     subtitle <- reactive({
-      subtitle <- insights()$`DataName`
-      subtitle
+      page <- shiny.router::get_query_param("subtitle", session)
+      if(is.null(page)){
+        page <- "dataName"
+      }
+      page
     })
     back_url <- reactive({
-      back_url <- insights()$`back_url`
-      back_url
+      page <- shiny.router::get_query_param("back_url", session)
+      page
+    })
+    layer <- reactive({
+      page <- shiny.router::get_query_param("layer", session)
+      page
     })
 
     output$insight <- renderUI({
@@ -60,7 +64,7 @@ server <- function(id) {
             h1(class = "more_insights_page__title", "See More Insights"),
             div(class = "more_insights_page__link",
                 img(src = "./icons/leftIcon.svg"),
-                a("Go Back", href = paste("#!/", back_url(), sep = "")),
+                a("Go Back", href = paste("#!/", back_url(), "?layer=", layer(),sep = "")),
             ),
             div(
               h1(class = "more_insights_page__subtitle", subtitle()),
@@ -68,7 +72,7 @@ server <- function(id) {
 
               div(class = "more_insights_page__list",
                   items <- lapply(1:nbre_report_files, function(i) {
-                    #print(paste("rapport :", i, sep = ""))
+
                     cards$more_insights_card("", paste("", report_files_no_extension[i],".html", sep = ""),
                                              paste("/_", report_files_no_extension[i], sep = ""))
                   }),

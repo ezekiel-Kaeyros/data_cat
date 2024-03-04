@@ -2,34 +2,26 @@ box::use(
   shiny.fluent[Nav, Stack, fluentPage],
   shiny[NS, div, img]
 )
+box::use(
+  app/logic/data_csv_process,
+)
 
 sidebar_nav <- Nav(
   groups = list(
     list(links = list(
-                      list(name = "Home", url = "#!/", key = "home", icon = "Home"),
+                      list(name = "Home", url = "#!/home", key = "home", icon = "Home"),
                       list(name = "Catalog", icon = "",
                            expandAriaLabel = "Expand Catalog section",
                            collapseAriaLabel = "Collapse Catalog section",
-                           links = list(
-                             list(
-                               name = "Monitoring",
-                               url = "#!/monitoring",
-                               key = "monitoring",
-                               icon = "TVMonitorSelected"
-                             ),
-                             list(
-                               name = "Assessment",
-                               url = "#!/assessment",
-                               key = "assessment",
-                               icon = "TestSuite"
-                             ),
-                             list(
-                               name = "Validation",
-                               url = "#!/validation",
-                               key = "validation",
-                               icon = "WaitlistConfirmMirrored"
-                             )
-                           ),
+                           links = items <- lapply(1:3, function(i) {
+                               list(
+                                 name = paste(data_csv_process$layer[i,], sep = ""),
+                                 url = paste("#!/", "monitoring",
+                                             "?layer=", paste(data_csv_process$layer[i,], sep = ""),sep = ""),
+                                 key = paste(tolower(data_csv_process$layer[i,]), sep = ""),
+                                 icon = "WaitlistConfirmMirrored"
+                               )
+                             }),
                            isExpanded = TRUE),
                       list(name = "Data Lineage",
                            url = "#!/data_lineage",
@@ -40,7 +32,12 @@ sidebar_nav <- Nav(
                            url = "#!/data_quality",
                            disbled = TRUE,
                            key = "quality",
-                           icon = "Filter")))
+                           icon = "Filter"),
+                      list(name = "Documentation",
+                           url = "#!/documentation",
+                           disbled = TRUE,
+                           key = "documentation",
+                           icon = "Dictionary")))
   ),
   initialSelectedKey = "home",
   styles = list(

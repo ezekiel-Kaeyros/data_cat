@@ -1,0 +1,47 @@
+.browse {
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: "Cambria";
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  z-index: 99997;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.searchBar {
+  border-radius: 10px;
+  display: inherit;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 10% 15% 5%;
+  margin: auto;
+
+}
+
+.ms-SearchBox {
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #4f5ae7;
+}
+
+.browse a {
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Arial";
+  color: #FF5733;
+  text-decoration: none;
+}
+.browse a:hover {
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Arial";
+  color: #15dff4;
+  text-decoration: none;
+}

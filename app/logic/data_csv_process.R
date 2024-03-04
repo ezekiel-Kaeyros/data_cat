@@ -2,6 +2,7 @@ box::use(
   dplyr,
   utils,
   magrittr[`%>%`],
+  shiny.router,
 )
 
 ########## EXCEL file input ########
@@ -90,3 +91,24 @@ output_data <- function(input){
 
 #Liste de ligne de notre fichier CSV XML ou Datasets
 nbre_datasets <- nrow(data_catalog_init)
+layer <- as.data.frame(unique(data_catalog$InputDataBusinessLayer))
+
+
+######## New file management function Uploader
+upload_file <- function(){
+
+  path_data <- "app/data/wait/csv_data_catalog.xlsx"
+  file.data <- path_data
+  data_upload <- as.data.frame(readxl::read_excel(file.data))
+
+  if(is.null(data_upload$InputDataBusinessProcess)){
+    return("Failed, your file don't correspond.")
+  }else{
+    file.copy("app/data/data_xl/csv_data_catalog.xlsx", "app/data/Archives/csv_data_catalog.xlsx")
+    unlink("app/data/data_xl/csv_data_catalog.xlsx")
+    file.copy("app/data/wait/csv_data_catalog.xlsx", "app/data/data_xl/csv_data_catalog.xlsx")
+    #unlink("app/data/wait/csv_data_catalog.xlsx")
+    return("Done!")
+  }
+}
+

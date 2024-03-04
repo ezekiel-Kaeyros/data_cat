@@ -14,7 +14,6 @@ xmldataframe <- data.frame()
 
 # 1. loading XML data   ####
 
-#' @export
 dataProcess <- function(dir, ext, name){
 
   path_data <- dir #paste0(path_input, dir)

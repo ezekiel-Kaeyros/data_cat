@@ -6,13 +6,13 @@ box::use(
                Dropdown.shinyInput, Stack, DefaultButton.shinyInput,
                reactOutput, renderReact, Panel, Pivot, PivotItem, Label],
   shinyWidgets[actionBttn],
+  shiny.router,
   dplyr,
   reactable,
   htmlwidgets[JS],
   magrittr[`%>%`],
   DT[datatable],
   htmltools[HTML],
-  shiny.tailwind[use_tailwind]
 )
 
 box::use(
@@ -31,34 +31,16 @@ box::use(
   app/logic/function_file
 )
 
-## variable d'input select
-data_catalog_select <- data_csv_process$output_select("Monitoring")
-
-############### List of node for select button
-opt1 <- list(key = c(data_catalog_select$InputDataBusinessProcess),
-             text = c(data_catalog_select$InputDataBusinessProcess))
-############# Generation of Option for Select Button
-options <- mapply(function(i, x, y) list(ind = i, key = x, text = y),
-                  seq.int(opt1$key), opt1$key, opt1$text,SIMPLIFY = FALSE)
-
-# Tab navigation goes here
 
 #' @export
 monitoring_ui <- function(id) {
 
   ns <- NS(id)
+
   div(class = "monitoring",
 
     div(class = "monitoring__header",
-      div(class = "monitoring__dropdown",
-        Dropdown.shinyInput(
-          inputId = ns("dropdown"),
-          value = opt1$text[1],
-          defaultSelectedKeys = "A",
-          placeHolder = opt1$text[1],
-          options = options
-        ),
-      ),
+      uiOutput(ns("select")),
       div(class = "monitoring__pivot",
         Pivot(linkFormat = "tabs",
           PivotItem(headerText = "Input", itemIcon = "Down",
@@ -83,5 +65,39 @@ monitoring_server <- function(id) {
     ns <- session$ns
     observeEvent(input$dropdown, monitoring_graph_view$server("graph", input$dropdown))
     observeEvent(input$dropdown, monitoring_table_view$server("tableview", input$dropdown))
+
+    current_page <- reactive({
+      page <- shiny.router::get_query_param("layer", session)
+      if(is.null(page)){
+        page <- "Validation"
+      }
+      page
+      page
+    })
+    data_catalog_select <- reactive({
+      data_csv_process$output_select(current_page())
+      })
+
+    ############### List of node for select button
+    opt1 <- reactive({list(key = c(data_catalog_select()$InputDataBusinessProcess),
+                 text = c(data_catalog_select()$InputDataBusinessProcess))
+            })
+    ############# Generation of Option for Select Button
+    options <- reactive({ mapply(function(i, x, y) list(ind = i, key = x, text = y),
+                      seq.int(opt1()$key), opt1()$key, opt1()$text,SIMPLIFY = FALSE)
+            })
+
+    output$select <- renderUI({
+      div(class = "monitoring__dropdown",
+          style = "width: 130%",
+          Dropdown.shinyInput(
+            inputId = ns("dropdown"),
+            value = opt1()$text[1],
+            defaultSelectedKeys = "A",
+            placeHolder = opt1()$text[1],
+            options = options()
+          ))
+    })
+
   })
 }

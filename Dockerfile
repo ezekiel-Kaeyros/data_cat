@@ -67,7 +67,8 @@ RUN R -e "install.packages('rhino')"
 RUN R -e "install.packages('keyring')"
 RUN R -e "install.packages('r2d3')"
 RUN R -e "remotes::install_github('deepanshu88/shinyDarkmode')"
-
+RUN R -e "install.packages('shiny.i18n')"
+RUN R -e "install.packages('googleLanguageR')"
 
 
 # Expose the application port

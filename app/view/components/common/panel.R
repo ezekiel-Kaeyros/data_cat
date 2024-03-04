@@ -7,6 +7,7 @@ box::use(
   shiny.fluent[DetailsList, Text, fluentPage,Panel, Link, renderReact],
   shinyjs,
   htmlwidgets[JS],
+  shiny.router,
   htmltools[a],
 )
 
@@ -18,6 +19,16 @@ box::use(
 #' @export
 dynamic_panel_server <- function(input, output, session, data_panel, val) {
   ns <- session$ns
+
+  current_page <- reactive({
+    page <- shiny.router::get_page(session)
+    page
+  })
+
+  layer <- reactive({
+    page <- shiny.router::get_query_param("layer", session)
+    page
+  })
 
   is_panel_open <- val
   output$reactPanel <- renderReact({
@@ -53,10 +64,16 @@ dynamic_panel_server <- function(input, output, session, data_panel, val) {
         cards$monitoring_panel_card("Remarks",
                                     img(src = "./icons/descriptionIcon.svg"),
                                     data_panel$Remarks),
+        tags$aside( class = "hover-popup-panel",
+                    tags$p("Insight popup")
+        ),
         div(class = "panel__link",
             id = "openLinkBtn",
-            Link(href = "#!/more-insights", "See More Insights", onClick = JS(paste0(
-              "function() {",
+            Link(href = paste("#!/more-insights?subtitle=",
+                              data_panel$DataName, "&", "back_url=", current_page(),
+                              "&layer=", layer(),sep=""),
+                 "See More Insights", class = "hover-target",
+                 onClick = JS(paste0( "function() {",
               "  Shiny.setInputValue('", ns("hidePanel"), "', Math.random());",
               "}"
             ))),

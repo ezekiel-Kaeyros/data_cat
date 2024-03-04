@@ -4,9 +4,10 @@ cat("\f")
 box::use(
   shiny[bootstrapPage, div, moduleServer, NS, renderUI, tags, uiOutput, textOutput,
         renderText, reactive, req, observeEvent, enableBookmarking, actionButton,
-        reactiveValuesToList],
+        reactiveValuesToList, observe],
   shiny.router[router_server, route, router_ui],
-  shiny.fluent[fluentPage, Text, ThemeProvider],
+  shiny.fluent[fluentPage, Text, ThemeProvider, Link],
+  shinyjs,
   tibble,
   shinymanager,
   shinyDarkmode,
@@ -16,31 +17,33 @@ box::use(
 box::use(
   app/view/home_page,
   app/view/monitoring_page,
-  app/view/validation_page,
   app/view/more_insights_page,
-  app/view/assessment_page,
+  app/view/documentation_page,
   app/view/data_lineage_page,
   app/view/data_quality_page,
+  app/view/browse_page,
   app/view/components/layouts,
   app/view/components/common/panel,
   app/view/components/common/button
 )
 
 box::use(
-  app/logic/sendMail
+  app/logic/sendMail,
+  app/logic/data_csv_process,
 )
 
 # ############## creation du keyring and connect
 #keyring::key_set("R-shinymanager-key", "datacatalogapp")
 #keyring::key_set_with_value("R-shinymanager-key", "datacatalogapp", password = "Kaeyros@data@237@key")
 
-########## Define Credential
+######### Define Credential
 # credentials <- data.frame(
 #   user = c("admin","admin_kaeyros", "datacat_user", "datacat_user_2","datacat_user_3", "datacat_user_4", "datacat_user_5"),
 #   password = c("admin","Kaeyros@data@237@key","CSV@datacat@2024@key",
 #                "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key", "CSV@datacat@2024@key"),
 #   # password will automatically be hashed
 #   admin = c(FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE),
+#   grade = c("user","super_admin","simple_admin","admin","admin","user","simple_admin"),
 #   stringsAsFactors = FALSE
 # )
 # ###############" Creation de la DB SQLite
@@ -55,25 +58,36 @@ ui <- function(id) {
   #ns <- NS(id) ne pas utilisé dans cet .env - rhino.yml
 
   fluentPage(
-    ######## initialize Darkmode
-    shinyDarkmode::use_darkmode(),
+    ######## initialize upload xlsx file function
+    shinyjs::useShinyjs(),
+    div(
+      style = "
+          visibility: hidden;
+          height: 0;
+          width: 0;
+        ",
+      shiny::fileInput("uploadFile", label = NULL)
+    ),
 
     router_ui(
+      route("browse", layouts$main_layout(browse_page$browse_page_ui("browse"))),
       route("home", layouts$main_layout(home_page$home_ui("home", textOutput("username")))),
       route("monitoring", layouts$main_layout(monitoring_page$monitoring_ui("monitoring"))),
-      route("validation", layouts$main_layout(validation_page$validation_ui("validation"))),
       route("more-insights", layouts$main_layout(more_insights_page$ui("insights"))),
-      route("assessment", layouts$main_layout(assessment_page$assessment_ui("assessment"))),
+      route("documentation", layouts$main_layout(documentation_page$ui("documentation"))),
       route("data_lineage", layouts$main_layout(data_lineage_page$data_lineage_ui("data_lineage"))),
-      route("data_quality", layouts$main_layout(data_quality_page$data_quality_ui("data_quality")))
-    )
+      route("data_quality", layouts$main_layout(data_quality_page$data_quality_ui("data_quality"))),
+    ),
+
+    ######## initialize Darkmode
+    shinyDarkmode::use_darkmode(),
   )
 }
 
 #Change labels
 shinymanager::set_labels(
   language = c("en"),
-  "Please authenticate" = "Authenticate"
+  "Please authenticate" = "Login"
 )
 
 #' @export
@@ -81,7 +95,9 @@ ui <- shinymanager::secure_app(ui,
   tags_top =
     tags$div(
       tags$head(
-          tags$link(rel = "stylesheet", type="text/css", href ="login.css")
+          tags$link(rel = "stylesheet", type="text/css", href ="login.css"),
+          tags$link(rel = "stylesheet",
+                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
              ),
      tags$img(src = "logo.png", width = 100)
   ),
@@ -92,6 +108,8 @@ ui <- shinymanager::secure_app(ui,
     )
 ),
     enable_admin = TRUE, fab_position = "bottom-right") #choose_language = TRUE,
+
+
 
 #' @export
 server <- function(id, input, output, session) {
@@ -108,24 +126,51 @@ server <- function(id, input, output, session) {
   data <- reactive({
     reactiveValuesToList(res_auth)
   })
-  ########### Darkmode function
-  shinyDarkmode::darkmode_toggle(inputid = 'dark_mode', autoMatchOsTheme = FALSE)
 
-  router_server("home")
+  router_server("browse")
   home_page$home_server("home")
+  browse_page$browse_page_server("browse")
   monitoring_page$monitoring_server("monitoring")
-  validation_page$validation_server("validation")
   more_insights_page$server("insights")
-  assessment_page$assessment_server("assessment")
+  documentation_page$server("documentation")
   data_quality_page$data_quality_server("data_quality")
   data_lineage_page$data_lineage_server("data_lineage")
 
+  ########### Darkmode function
+  observeEvent(input$dark_mode, {
+    print("dark")
+  })
+
+  shinyDarkmode::darkmode_toggle(inputid = 'dark_mode', autoMatchOsTheme = FALSE)
+
   ####### envoie un mail apres la connexion
   #observeEvent(data()$user,{ sendMail$send_mail_login(data()$user)})
+  observeEvent(data()$user,{ print(paste(data()$user," Un auth de type :",data()$grade,
+                                         " C'est connecté", sep = ""))})
 
   ########## The Username of the person login
   output$username <- renderText({
     data()$user
+  })
+
+  observeEvent(input$uploadFileButton, {
+    shinyjs::click("uploadFile")
+  })
+
+  observe({
+    if (is.null(input$uploadFile)) return()
+    print(input$uploadFile$name)
+    unlink("app/data/wait/csv_data_catalog.xlsx")
+    file.copy(input$uploadFile$datapath, "app/data/wait/csv_data_catalog.xlsx")
+
+    output$upload_file <- renderText({
+      print(data_csv_process$upload_file())
+      if(data_csv_process$upload_file() == "Done!"){
+        session$reload()
+      }
+      data_csv_process$upload_file()
+    })
+
   })
 
 }

@@ -1,6 +1,6 @@
 box::use(
   shiny[div, NS, moduleServer],
-  shiny.fluent[Text],
+  shiny.fluent[Text, Pivot, PivotItem],
   plotly[plotlyOutput, renderPlotly, plot_ly, add_pie, layout],
   magrittr[`%>%`]
 )
@@ -16,9 +16,19 @@ box::use(
 #' @export
 ui <- function(id) {
   ns <- NS(id)
+
   cards$catalog_quality_metrics_card(
-    plotlyOutput(ns("graph"), width = "70%", height = "270px")
+    div(class = "home_viewToggle",
+        Pivot(linkFormat = "tabs",
+               PivotItem(headerText = "Accuracy", itemIcon = "GitGraph",
+                         plotlyOutput(ns("graph"), width = "80%", height = "270px")),
+               PivotItem(headerText = "Completness", itemIcon = "GitGraph",
+                                ""),
+              PivotItem(headerText = "Consistency", itemIcon = "GitGraph",
+                        "")
+      )
     )
+  )
 
 }
 

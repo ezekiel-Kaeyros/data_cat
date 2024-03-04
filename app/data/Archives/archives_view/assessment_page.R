@@ -11,8 +11,7 @@ box::use(
   htmlwidgets[JS],
   magrittr[`%>%`],
   DT[datatable],
-  htmltools[HTML],
-  shiny.tailwind[use_tailwind]
+  htmltools[HTML]
 )
 
 box::use(

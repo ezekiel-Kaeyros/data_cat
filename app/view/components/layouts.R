@@ -68,7 +68,7 @@ main_layout <- function(main_ui) {
   ThemeProvider(
     theme = theme,
     div(class = "container",
-      div(class = "sidebar", sidebar$sidebar_ui),
+        div(class = "sidebar", sidebar$sidebar_ui),
       div(class = "content",
           div(class = "header", header$header_ui),
           div(class = "main", main_ui)),

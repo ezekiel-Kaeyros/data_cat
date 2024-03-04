@@ -1,6 +1,6 @@
 box::use(
   shiny[div, reactive, tags, tagList, NS, renderUI, moduleServer, uiOutput, textOutput,
-        renderText, renderDataTable, verbatimTextOutput,
+        renderText, renderDataTable, downloadButton, downloadHandler,
         renderPrint, req, reactiveVal, observeEvent, observe, icon, hideTab, callModule],
   shiny.fluent[DetailsList, Text, fluentPage,Dropdown.shinyInput, Stack,
                DefaultButton.shinyInput, reactOutput, renderReact, Panel],
@@ -21,7 +21,7 @@ box::use(
   app/view/components/common/panel
 )
 
-datas_value <- data_csv_process$output_data("Assessment")
+datas_value <- data_csv_process$output_data("Validation")
 
 #' @export
 ui <- function(id) {
@@ -30,7 +30,22 @@ ui <- function(id) {
     div(class = "monitoring_table_view",
         div(
           class = "seletected_text",
-          textOutput(ns("tableText"))
+          textOutput(ns("tableText")),
+          shiny::br(),
+          tags$style("
+                #validation-tableview-downloadB{
+                  color: white;
+                  border: none;
+                  background-color: #5547AC;
+                }
+                "),
+          DefaultButton.shinyInput(ns("downloadB"),
+                                   text = "Download as CSV",
+                                   iconProps = list(iconName = "Download")
+          ),
+          tags$aside( class = "hover-popup",
+                      tags$p("Download this table as CSV")
+          )
         ),
 
         ############################### Table View
@@ -58,6 +73,15 @@ server <- function(id, dropdown) {
 
     ns <- session$ns
 
+    ############## Add hidden download button
+    shiny::insertUI('body', 'beforeBegin', session = session,
+                    ui = tagList(
+                      div(
+                        style = 'visibility: hidden; display: none',
+                        downloadButton(ns("download_csv"), label = "")
+                      )
+                    ))
+
     table_data <- reactive({
       datas_value %>%
         dplyr::filter(InputDataBusinessProcess == dropdown
@@ -69,14 +93,14 @@ server <- function(id, dropdown) {
 
     ##### Display DATATABLES
     output$tableText <- renderText({
-      paste("Monitoring / ", dropdown, sep = "")
+      paste("Validation / ", dropdown, sep = "")
     })
 
     output$tableview <- reactable$renderReactable({
       data_s <- table_data() %>%
         dplyr::distinct(DataName,Description,Format,Source,
                         Storage,Size,TimeSerieRange,deliveryFrequency,
-                        Remarks)
+                        Remarks, pathString)
 
       reactable$reactable(data_s,resizable = TRUE, selection = "single",
                           onClick = "select", pagination = FALSE,
@@ -114,12 +138,19 @@ server <- function(id, dropdown) {
       ) # End Reactable
     }) #End RenderReactable
 
+    ############################ Stock as CSV
+    shinyjs::onclick("downloadB", shinyjs::runjs(paste("Reactable.downloadDataCSV(",
+                                                       "'",ns('tableview'),"'",
+                                                       ", ","'",
+                                                       dropdown,".csv","')",sep = "")))
+
+
     ###############################Code pour afficher le panel
 
     ######injection des datas
     data_panel <- reactive({
       data_panel <- table_data()
-      data_panel$back_url <- "assessment"
+      data_panel$back_url <- "validation"
       data_panel <- data_panel %>%
         dplyr::filter( DataName == table_data()$`DataName`[state()])
 
