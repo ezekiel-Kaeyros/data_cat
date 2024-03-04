@@ -126,6 +126,13 @@ server <- function(id, input, output, session) {
   data <- reactive({
     reactiveValuesToList(res_auth)
   })
+  ########### Darkmode function
+  observeEvent(input$dark_mode, {
+    print("dark")
+  })
+
+  shinyDarkmode::darkmode_toggle(session, inputid = 'dark_mode', autoMatchOsTheme = FALSE,
+                                 saveInCookies = FALSE)
 
   router_server("browse")
   home_page$home_server("home")
@@ -136,15 +143,10 @@ server <- function(id, input, output, session) {
   data_quality_page$data_quality_server("data_quality")
   data_lineage_page$data_lineage_server("data_lineage")
 
-  ########### Darkmode function
-  observeEvent(input$dark_mode, {
-    print("dark")
-  })
-
-  shinyDarkmode::darkmode_toggle(inputid = 'dark_mode', autoMatchOsTheme = FALSE)
-
   ####### envoie un mail apres la connexion
   #observeEvent(data()$user,{ sendMail$send_mail_login(data()$user)})
+
+  ######### The Grade of person login
   observeEvent(data()$user,{ print(paste(data()$user," Un auth de type :",data()$grade,
                                          " C'est connecté", sep = ""))})
 
@@ -157,6 +159,7 @@ server <- function(id, input, output, session) {
     shinyjs::click("uploadFile")
   })
 
+  ####### Upload New File
   observe({
     if (is.null(input$uploadFile)) return()
     print(input$uploadFile$name)
@@ -164,13 +167,17 @@ server <- function(id, input, output, session) {
     file.copy(input$uploadFile$datapath, "app/data/wait/csv_data_catalog.xlsx")
 
     output$upload_file <- renderText({
-      print(data_csv_process$upload_file())
-      if(data_csv_process$upload_file() == "Done!"){
-        session$reload()
-      }
-      data_csv_process$upload_file()
-    })
 
-  })
+      if(data_csv_process$upload_file() == "Done!"){
+        ############# After 5s application restart
+        shinyjs::delay(5000, session$reload())
+        paste(data_csv_process$upload_file(), " / App restart in 5 seconds", sep = "")
+
+      }else{
+        shinyjs::delay(3000, sprintf(""))
+        data_csv_process$upload_file()
+      }
+    })
+  }) ### End Upload New File
 
 }

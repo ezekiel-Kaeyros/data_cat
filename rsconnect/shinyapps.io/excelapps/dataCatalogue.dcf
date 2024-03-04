@@ -1,12 +1,12 @@
-name: DataCatalogApp
-title: DataCatalogApp
+name: dataCatalogue
+title: dataCatalogue
 username: excelapps
 account: excelapps
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 11170010
-bundleId: 8316327
-url: https://excelapps.shinyapps.io/DataCatalogApp/
+appId: 11393093
+bundleId: 8325855
+url: https://excelapps.shinyapps.io/dataCatalogue/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
